@@ -18,8 +18,8 @@ var config = {
 
 var sky;
 var player;
-var cursors;
 var platforms;
+var cursors;
 
 var game = new Phaser.Game(config);
 
@@ -38,14 +38,16 @@ function create() {
 
     //******Level******
 
-    platforms.create(0, 450, 'platform');
+    platforms.create(400, 575, 'platform');
 
     // ******Player******
 
-    player = this.physics.add.sprite(400, 400, 'player');
+    player = this.physics.add.sprite(400, 300, 'player');
 
     player.setBounce(0.1);
     player.setCollideWorldBounds(true);
+
+    this.physics.add.collider(player, platforms);
 
 }
 
