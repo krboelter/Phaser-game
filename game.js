@@ -19,23 +19,34 @@ var config = {
 var sky;
 var player;
 var cursors;
+var platforms;
 
 var game = new Phaser.Game(config);
 
 function preload() {
     this.load.image('sky', 'Assets/Environment/sky.png');
     this.load.image('player', 'Assets/Player/player.png');
+    this.load.image('platform', 'Assets/Environment/platform.png');
 }
 
 function create() {
     this.add.image(400, 300, 'sky');
+
+    platforms = this.physics.add.staticGroup();
     
+    cursors = this.input.keyboard.createCursorKeys();
+
+    //******Level******
+
+    platforms.create(0, 450, 'platform');
+
+    // ******Player******
+
     player = this.physics.add.sprite(400, 400, 'player');
 
     player.setBounce(0.1);
     player.setCollideWorldBounds(true);
 
-    cursors = this.input.keyboard.createCursorKeys();
 }
 
 function update() {
