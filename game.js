@@ -5,7 +5,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y : 300 },
+            gravity: { y : 2000 },
             debug: false
         }
     },
@@ -20,6 +20,7 @@ var sky;
 var player;
 var platforms;
 var cursors;
+const SPEED = 360;
 
 var game = new Phaser.Game(config);
 
@@ -30,6 +31,7 @@ function preload() {
 }
 
 function create() {
+    console.log(this);
     this.add.image(400, 300, 'sky');
 
     platforms = this.physics.add.staticGroup();
@@ -39,6 +41,8 @@ function create() {
     //******Level******
 
     platforms.create(400, 575, 'platform');
+
+    platforms.create(400, 375, 'platform').setScale(.3).refreshBody();
 
     // ******Player******
 
@@ -51,15 +55,37 @@ function create() {
 
 }
 
-function update() {
+function update(delta) {
+    // if(gameOver) {
+    //     return;
+    // }
+
+    playerMovement(delta);
+}
+
+function playerMovement (delta) {
+    let gainVelocity = function() {
+        let increaseSpeed = 0.25 * delta;
+        if (SPEED > increaseSpeed) {
+            return increaseSpeed;
+        }
+        else {
+            return SPEED;
+        }
+    }
+
     if (cursors.left.isDown) {
-        player.setVelocityX(-160);
+        player.setVelocityX(Math.max(-SPEED, -gainVelocity()));
     }
     else if (cursors.right.isDown) {
-        player.setVelocityX(160);
+        player.setVelocityX(Math.min(SPEED, gainVelocity()));
     }
     else {
         player.setVelocityX(0);
     }
-}
 
+    if (cursors.up.isDown && player.body.touching.down){
+        player.setVelocityY(-900);
+    }
+
+}
