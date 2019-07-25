@@ -20,7 +20,8 @@ var sky;
 var player;
 var platforms;
 var cursors;
-const SPEED = 360;
+const MAX_SPEED = 360;
+const ACCELERATION = 50;
 
 var game = new Phaser.Game(config);
 
@@ -64,21 +65,21 @@ function update(delta) {
 }
 
 function playerMovement (delta) {
-    let gainVelocity = function() {
-        let increaseSpeed = 0.25 * delta;
-        if (SPEED > increaseSpeed) {
-            return increaseSpeed;
-        }
-        else {
-            return SPEED;
-        }
-    }
+    // let gainVelocity = function() {
+    //     let increaseSpeed = 0.25 * delta;
+    //     if (SPEED > increaseSpeed) {
+    //         return increaseSpeed;
+    //     }
+    //     else {
+    //         return SPEED;
+    //     }
+    // }
 
     if (cursors.left.isDown) {
-        player.setVelocityX(Math.max(-SPEED, -gainVelocity()));
+        player.setVelocityX -= ACCELERATION;
     }
     else if (cursors.right.isDown) {
-        player.setVelocityX(Math.min(SPEED, gainVelocity()));
+        player.setVelocityX += ACCELERATION;
     }
     else {
         player.setVelocityX(0);
