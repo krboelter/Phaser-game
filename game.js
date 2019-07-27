@@ -21,7 +21,7 @@ var player;
 var platforms;
 var cursors;
 const MAX_SPEED = 360;
-const ACCELERATION = 50;
+const ACCELERATION = 25;
 
 var game = new Phaser.Game(config);
 
@@ -32,7 +32,7 @@ function preload() {
 }
 
 function create() {
-    console.log(this);
+    // console.log(this);
     this.add.image(400, 300, 'sky');
 
     platforms = this.physics.add.staticGroup();
@@ -75,18 +75,19 @@ function playerMovement (delta) {
     //     }
     // }
 
+
+
     if (cursors.left.isDown) {
-        player.setVelocityX -= ACCELERATION;
+        player.body.velocity.x -= ACCELERATION;
     }
     else if (cursors.right.isDown) {
-        player.setVelocityX += ACCELERATION;
+        player.body.velocity.x += ACCELERATION;
     }
     else {
-        player.setVelocityX(0);
+        player.body.velocity.x = 0;
     }
 
     if (cursors.up.isDown && player.body.touching.down){
         player.setVelocityY(-900);
     }
-
 }
